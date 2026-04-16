@@ -52,7 +52,7 @@ fkCamara int,
 foreign key (fkCamara) references camara(idCamara) );
 
 create table leitura (
-idLeitura int,
+idLeitura int auto_increment,
 temperatura decimal (5,2) not null,
 dataHora datetime default current_timestamp not null,
 fkSensor int,
