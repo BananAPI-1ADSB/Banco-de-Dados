@@ -6,7 +6,7 @@ idEmpresa int primary key auto_increment,
 nome varchar(100) not null,
 CNPJ char(14) not null,
 dataCadastro datetime default current_timestamp );
-drop table empresa;
+
 
 
 create table usuario (
@@ -16,7 +16,7 @@ email varchar(100) not null,
 senha varchar(250) not null,
 fkEmpresa int,
 foreign key (fkEmpresa) references empresa(idEmpresa) );
-drop table usuario;
+
 
 
 create table entreposto (
@@ -25,7 +25,7 @@ nome varchar(100) not null,
 dataCadastro datetime default current_timestamp,
 fkEmpresa int,
 foreign key (fkEmpresa) references empresa (idEmpresa) ) auto_increment = 100;
-drop table entreposto;
+
 
 create table endereco (
 idEndereco int primary key auto_increment,
@@ -40,7 +40,7 @@ fkEmpresa int,
 fkEntreposto int,
 foreign key (fkEmpresa) references empresa(idEmpresa),
 foreign key (fkEntreposto) references entreposto(idEntreposto) );
-drop table endereco;
+
 
 create table camara (
 idCamara int primary key auto_increment,
@@ -48,7 +48,7 @@ nome varchar(50) not null,
 tipo varchar(50) not null,
 fkEntreposto int,
 foreign key (fkEntreposto) references entreposto(idEntreposto) );
-drop table camara;
+
 
 create table sensor (
 idSensor int primary key auto_increment,
@@ -57,7 +57,7 @@ status varchar(20),
 pontoDeReferencia varchar(45),
 fkCamara int,
 foreign key (fkCamara) references camara(idCamara) );
-drop table sensor;
+
 
 create table leitura (
 idLeitura int,
@@ -65,7 +65,7 @@ temperatura decimal (5,2) not null,
 dataHora datetime default current_timestamp not null,
 fkSensor int,
 primary key (idLeitura, fkSensor) );
-drop table leitura;
+
 
 create table alerta (
 idAlerta int, 
