@@ -128,52 +128,6 @@ JOIN leitura AS l ON s.idSensor = l.fkSensor;
 
 select * from vw_v1completa; -- VIEW COMPLETA DO PRIMEIRO SELECT.
 
-------------------------------------------------------------------------------
-
-SELECT 
-    e.nome AS Empresa,
-    ent.nome AS Entreposto,
-    end.cidade,
-    end.siglaEstado,
-    c.nome AS Camara
-FROM empresa AS e
-LEFT JOIN entreposto AS ent ON e.idEmpresa = ent.fkEmpresa
-LEFT JOIN endereco AS end ON ent.idEntreposto = end.fkEntreposto
-LEFT JOIN camara AS c ON ent.idEntreposto = c.fkEntreposto; -- SELECT 2 COM LEFT JOIN
-
-create view vw_leftJoin as 
-SELECT 
-    e.nome AS Empresa,
-    ent.nome AS Entreposto,
-    end.cidade,
-    end.siglaEstado,
-    c.nome AS Camara
-FROM empresa AS e
-LEFT JOIN entreposto AS ent ON e.idEmpresa = ent.fkEmpresa
-LEFT JOIN endereco AS end ON ent.idEntreposto = end.fkEntreposto
-LEFT JOIN camara AS c ON ent.idEntreposto = c.fkEntreposto;
-
-select * from vw_leftJoin; -- VIEW COMPLETA COM O LEFT JOIN (2º SELECT).
--- -----------------------------------------------------------------------
-
-SELECT 
-    u.nome AS Funcionario,
-    u.email,
-    e.nome AS Empresa_Trabalho,
-    e.CNPJ
-FROM usuario AS u
-JOIN empresa AS e ON u.fkEmpresa = e.idEmpresa; -- SELECT 3 COM JOIN SIMPLES
-
-create view vw_simples as 
-SELECT 
-    u.nome AS Funcionario,
-    u.email,
-    e.nome AS Empresa_Trabalho,
-    e.CNPJ
-FROM usuario AS u
-JOIN empresa AS e ON u.fkEmpresa = e.idEmpresa;
-
-select * from vw_simples; -- VIEW SIMPLES 
 -- -------------------------------------------------------------------------
 
 SELECT 
@@ -203,9 +157,10 @@ select * from vw_rightJoin; -- VIEW COMPLETA COM RIGHT JOIN
 
 -- --------------------------------------------------------------------------
 
--- TODAS AS VIEWS CRIADAS : 
-select * from vw_v1completa;
-select * from vw_leftJoin;
-select * from vw_rightJoin;
-select * from vw_simples;
+select S.idSensor, L.temperatura , L.dataHora from leitura as L join sensor as S on l.fkSensor = s.idSensor;
 
+create view vw_leitura as select S.idSensor, L.temperatura , L.dataHora from leitura as L join sensor as S on l.fkSensor = s.idSensor;
+
+select * from vw_leitura; -- View titular.
+select * from vw_v1completa; -- Auxiliar para a consulta 
+select * from vw_rightJoin; -- Auxiliar para a consulta
