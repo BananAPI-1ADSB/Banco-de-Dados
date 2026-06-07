@@ -90,7 +90,7 @@ INSERT INTO camara (nome, tipo, fkEntreposto) VALUES
 ('Câmara Fria 01', 'Congelamento', 100);
 
 INSERT INTO sensor (modelo, status, pontoDeReferencia, fkCamara) VALUES 
-('DHT22-B', 'Ativo', 'Canto Superior Direito', 1);
+('LM-35', 'Ativo', 'Canto Superior Direito', 1);
 
 INSERT INTO leitura (idLeitura, temperatura, fkSensor) VALUES 
 (1, -15.50, 1),
@@ -157,7 +157,7 @@ select * from vw_rightJoin; -- VIEW COMPLETA COM RIGHT JOIN
 
 -- --------------------------------------------------------------------------
 
-select S.idSensor, L.temperatura , L.dataHora from leitura as L join sensor as S on l.fkSensor = s.idSensor;
+select S.idSensor, L.temperatura , L.dataHora from leitura as L join sensor as S on L.fkSensor = S.idSensor;
 
 create view vw_leitura as select S.idSensor, L.temperatura , L.dataHora from leitura as L join sensor as S on l.fkSensor = s.idSensor;
 
