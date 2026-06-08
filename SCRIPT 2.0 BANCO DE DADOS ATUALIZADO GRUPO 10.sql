@@ -68,7 +68,7 @@ primary key (idLeitura, fkSensor) );
 
 
 create table alerta (
-idAlerta int, 
+idAlerta int auto_increment, 
 mensagem varchar(250),
 dataHora datetime default current_timestamp,
 fkLeitura int,
@@ -102,6 +102,6 @@ INSERT INTO alerta (idAlerta, mensagem, fkLeitura) VALUES
 
 -- -------------------------------------------------------------------------
 
-SELECT * FROM alerta LIMIT 5 ORDER BY dataHora DESC;
+SELECT * FROM alerta ORDER BY dataHora DESC LIMIT 5;
 
-CREATE VIEW vw_alerta AS SELECT * FROM alerta LIMIT 5 ORDER BY dataHora DESC;
+CREATE VIEW vw_alerta AS SELECT * FROM alerta ORDER BY dataHora DESC LIMIT 5;
