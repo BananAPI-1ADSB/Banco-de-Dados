@@ -55,12 +55,12 @@ idSensor int primary key auto_increment,
 modelo varchar(50),
 status varchar(20),
 pontoDeReferencia varchar(45),
-fkCamara int,
+fkCamara int unique,
 foreign key (fkCamara) references camara(idCamara) );
 
 
 create table leitura (
-idLeitura int auto_increment,
+idLeitura int,
 temperatura decimal (5,2) not null,
 dataHora datetime default current_timestamp not null,
 fkSensor int,
@@ -68,7 +68,7 @@ primary key (idLeitura, fkSensor) );
 
 
 create table alerta (
-idAlerta int auto_increment, 
+idAlerta int, 
 mensagem varchar(250),
 dataHora datetime default current_timestamp,
 fkLeitura int,
@@ -90,7 +90,7 @@ INSERT INTO camara (nome, tipo, fkEntreposto) VALUES
 ('Câmara Fria 01', 'Congelamento', 100);
 
 INSERT INTO sensor (modelo, status, pontoDeReferencia, fkCamara) VALUES 
-('LM-35', 'Ativo', 'Canto Superior Direito', 1);
+('DHT22-B', 'Ativo', 'Canto Superior Direito', 1);
 
 INSERT INTO leitura (idLeitura, temperatura, fkSensor) VALUES 
 (1, -15.50, 1),
@@ -99,9 +99,70 @@ INSERT INTO leitura (idLeitura, temperatura, fkSensor) VALUES
 INSERT INTO alerta (idAlerta, mensagem, fkLeitura) VALUES 
 (1, 'Temperatura crítica detectada', 1);
 
+SELECT 
+    e.nome AS Empresa,
+    ent.nome AS Entreposto,
+    c.nome AS Camara,
+    s.modelo AS Sensor,
+    l.temperatura,
+    l.dataHora AS Momento_Leitura
+FROM empresa AS e
+JOIN entreposto AS ent ON e.idEmpresa = ent.fkEmpresa
+JOIN camara AS c ON ent.idEntreposto = c.fkEntreposto
+JOIN sensor AS s ON c.idCamara = s.fkCamara
+JOIN leitura AS l ON s.idSensor = l.fkSensor; -- SELECT 1 COM MUITOS JOINS 
+
+create view vw_v1completa as 
+SELECT 
+    e.nome AS Empresa,
+    ent.nome AS Entreposto,
+    c.nome AS Camara,
+    s.modelo AS Sensor,
+    l.temperatura,
+    l.dataHora AS Momento_Leitura
+FROM empresa AS e
+JOIN entreposto AS ent ON e.idEmpresa = ent.fkEmpresa
+JOIN camara AS c ON ent.idEntreposto = c.fkEntreposto
+JOIN sensor AS s ON c.idCamara = s.fkCamara
+JOIN leitura AS l ON s.idSensor = l.fkSensor;
+
+select * from vw_v1completa; -- VIEW COMPLETA DO PRIMEIRO SELECT.
 
 -- -------------------------------------------------------------------------
 
-SELECT * FROM alerta ORDER BY dataHora DESC LIMIT 5;
+SELECT 
+    c.nome AS Camara,
+    s.idSensor,
+    s.modelo,
+    s.status,
+    l.temperatura,
+    l.dataHora
+FROM leitura AS l
+RIGHT JOIN sensor AS s ON l.fkSensor = s.idSensor
+JOIN camara AS c ON s.fkCamara = c.idCamara; -- SELECT 4 COM RIGHT JOIN
 
-CREATE VIEW vw_alerta AS SELECT * FROM alerta ORDER BY dataHora DESC LIMIT 5;
+create view vw_rightJoin as 
+SELECT 
+    c.nome AS Camara,
+    s.idSensor,
+    s.modelo,
+    s.status,
+    l.temperatura,
+    l.dataHora
+FROM leitura AS l
+RIGHT JOIN sensor AS s ON l.fkSensor = s.idSensor
+JOIN camara AS c ON s.fkCamara = c.idCamara;
+
+select * from vw_rightJoin; -- VIEW COMPLETA COM RIGHT JOIN
+
+-- --------------------------------------------------------------------------
+
+select S.idSensor, L.temperatura , L.dataHora from leitura as L join sensor as S on l.fkSensor = s.idSensor;
+
+create view vw_leitura as select S.idSensor, L.temperatura , L.dataHora from leitura as L join sensor as S on l.fkSensor = s.idSensor;
+
+select * from vw_leitura; -- View titular.
+select * from vw_v1completa; -- Auxiliar para a consulta 
+select * from vw_rightJoin; -- Auxiliar para a consulta
+
+select * from usuario;
