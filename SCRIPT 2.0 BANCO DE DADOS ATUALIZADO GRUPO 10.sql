@@ -161,6 +161,16 @@ select S.idSensor, L.temperatura , L.dataHora from leitura as L join sensor as S
 
 create view vw_leitura as select S.idSensor, L.temperatura , L.dataHora from leitura as L join sensor as S on l.fkSensor = s.idSensor;
 
+CREATE VIEW vw_camara AS
+SELECT 
+	C.idCamara,
+    L.temperatura
+FROM camara AS C
+	JOIN sensor AS S
+	ON S.fkCamara = C.idCamara
+		JOIN leitura AS L
+		ON L.fkSensor = S.idSensor;
+
 select * from vw_leitura; -- View titular.
 select * from vw_v1completa; -- Auxiliar para a consulta 
 select * from vw_rightJoin; -- Auxiliar para a consulta
