@@ -163,6 +163,7 @@ create view vw_leitura as select S.idSensor, L.temperatura , L.dataHora from lei
 
 CREATE VIEW vw_camara AS
 SELECT 
+	C.fkEntreposto,
 	C.idCamara,
     L.temperatura
 FROM camara AS C
