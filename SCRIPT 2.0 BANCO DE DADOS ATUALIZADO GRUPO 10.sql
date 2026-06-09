@@ -157,6 +157,8 @@ select * from vw_rightJoin; -- VIEW COMPLETA COM RIGHT JOIN
 
 -- --------------------------------------------------------------------------
 
+CREATE VIEW vw_alerta AS SELECT * FROM alerta ORDER BY dataHora DESC LIMIT 5;
+
 select S.idSensor, L.temperatura , L.dataHora from leitura as L join sensor as S on l.fkSensor = s.idSensor;
 
 create view vw_leitura as select S.idSensor, L.temperatura , L.dataHora from leitura as L join sensor as S on l.fkSensor = s.idSensor;
